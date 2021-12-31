@@ -3,9 +3,9 @@ class Ship {
     this.head = head;
     this.length = length;
     this.direction = direction;
-    this.health = new Array(this.length).fill(false);
   }
-  randomshit = 22;
+  health = new Array(this.length).fill(false);
+
   //to find the index of an item you can use .indexOf() in javascript
   coordinate(head, length, direction) {
     //direction could be right and down only
@@ -35,7 +35,7 @@ class Ship {
     }
     return body;
   }
-  isHit() {
+  isHit(coordinate) {
     // check if the coordinate is equal to a point in the body
     // if yes get the index of the part that was hit
     // change that part of the index to true
@@ -47,8 +47,13 @@ class Ship {
       [0, 4],
       [0, 5],
     ];
-    let idx = testBody.indexOf([0, 1]);
+    let idx = testBody.forEach((arr, index) => {
+      if (coordinate[0] == arr[0] && coordinate[1] == arr[1]) {
+        return index;
+      }
+    });
     this.health[idx] = true;
+    return this.health;
   }
   isSunk() {
     //this returns a true or false
@@ -63,3 +68,25 @@ class Ship {
   }
 }
 module.exports = Ship;
+
+// // helper code
+// function largestOfFour(arr) {
+// arr1 = [2,1]
+// arr2 = [[2,3],[2,2],[2,1],[2,0]]
+// if arr1 == arr2 ?
+// so you compare arr1[0] & arr1[1] with arr2[i][j]
+//   let a = 0;
+//   for (let i = 0; i < arr.length; i++) {
+//     for (let j = 0; j < arr[i].length; j++) {
+//       let num = arr[i][j];
+
+//       if (num > a) {
+//         a = num;
+//         idx = i
+//         console.log(arr[i][j].indexOf(a));
+//       }
+//     }
+//   }
+
+//   console.log(a);
+// }
