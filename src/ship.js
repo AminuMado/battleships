@@ -47,13 +47,16 @@ class Ship {
       [0, 4],
       [0, 5],
     ];
-    let idx = testBody.forEach((arr, index) => {
-      if (coordinate[0] == arr[0] && coordinate[1] == arr[1]) {
-        return index;
+
+    let idx = 0;
+    let health = [false, false, false, false, false];
+    for (let i = 0; i < testBody.length; i++) {
+      if (testBody[i][0] == coordinate[0] && testBody[i][1] == coordinate[1]) {
+        idx = i;
       }
-    });
-    this.health[idx] = true;
-    return this.health;
+    }
+    health[idx] = true;
+    return health;
   }
   isSunk() {
     //this returns a true or false

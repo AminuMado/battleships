@@ -28,7 +28,13 @@ describe("Ship", () => {
     ]);
   });
   test("case 1 isHit() of a test body", () => {
-    expect(destroyer.isHit()).toStrictEqual([true, false, false, false, false]);
+    expect(destroyer.isHit([0, 4])).toStrictEqual([
+      false,
+      false,
+      false,
+      true,
+      false,
+    ]);
   });
   // test("case 1 isSunk()", () => {
   //   expect(destroyer.isSunk()).toBe(true);
