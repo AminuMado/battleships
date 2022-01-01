@@ -1,34 +1,26 @@
-const Ship = require("../ship.js");
+const createShip = require("../ship.js");
 
 describe("Ship", () => {
-  const destroyer = new Ship();
+  const destroyer = createShip([0, 0], 5, "right");
 
   test("defines Destroyer ship", () => {
     expect(typeof destroyer).toBe("object");
   });
-  test("defines coordinate()", () => {
-    expect(typeof destroyer.coordinate).toBe("function");
+  test("defines getBody()", () => {
+    expect(typeof destroyer.getBody).toBe("function");
   });
-  test("case 1 right coordinate([0,1],5,'right')", () => {
-    expect(destroyer.coordinate([0, 1], 5, "right")).toStrictEqual([
+  test("case 1 getBody()", () => {
+    expect(destroyer.getBody()).toStrictEqual([
+      [0, 0],
       [0, 1],
       [0, 2],
       [0, 3],
       [0, 4],
-      [0, 5],
     ]);
   });
-  test("case 2 down coordinate([0,1],5,'down')", () => {
-    expect(destroyer.coordinate([0, 1], 5, "down")).toStrictEqual([
-      [0, 1],
-      [1, 1],
-      [2, 1],
-      [3, 1],
-      [4, 1],
-    ]);
-  });
-  test("case 1 isHit() of a test body", () => {
-    expect(destroyer.isHit([0, 4])).toStrictEqual([
+
+  test("case 1 isHit([0,4])", () => {
+    expect(destroyer.isHit([0, 3])).toStrictEqual([
       false,
       false,
       false,
@@ -36,7 +28,15 @@ describe("Ship", () => {
       false,
     ]);
   });
-  // test("case 1 isSunk()", () => {
-  //   expect(destroyer.isSunk()).toBe(true);
-  // });
+  test("case 1 isSunk()", () => {
+    expect(destroyer.isSunk()).toBe(false);
+  });
+  test("case 2 isSunk()", () => {
+    destroyer.isHit([0, 0]);
+    destroyer.isHit([0, 1]);
+    destroyer.isHit([0, 2]);
+    destroyer.isHit([0, 3]);
+    destroyer.isHit([0, 4]);
+    expect(destroyer.isSunk()).toBe(true);
+  });
 });
