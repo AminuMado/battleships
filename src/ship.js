@@ -1,16 +1,18 @@
 function createShip(head, length, direction) {
   let health = new Array(length).fill(false);
   let body = [];
+  let name = null;
   buildBody(head, length, direction);
+  setName(length);
 
   function buildBody(head, length, direction) {
     switch (direction) {
-      case "right":
+      case "horizontal":
         for (let i = 0; i < length; i++) {
           body.push(head + i);
         }
         break;
-      case "down":
+      case "vertical":
         for (let i = 0; i < length; i++) {
           body.push(head + i * 10);
         }
@@ -37,7 +39,28 @@ function createShip(head, length, direction) {
   function getHealth() {
     return health;
   }
-
+  function getName() {
+    return name;
+  }
+  function setName(length) {
+    switch (length) {
+      case 2:
+        name = "destroyer";
+        break;
+      case 3:
+        name = "submarine";
+        break;
+      case 4:
+        name = "battleship";
+        break;
+      case 5:
+        name = "aircraft";
+        break;
+      default:
+        name = "default Name";
+        return;
+    }
+  }
   function isSunk() {
     let result = health.every((e) => e === true);
     return result;
@@ -53,7 +76,7 @@ function createShip(head, length, direction) {
     // }
   }
 
-  return { getBody, getHealth, isHit, isSunk };
+  return { getName, getBody, getHealth, isHit, isSunk };
 }
 export { createShip };
 module.exports = createShip;
