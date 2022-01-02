@@ -1,3 +1,63 @@
+function createShip(head, length, direction) {
+  let health = new Array(length).fill(false);
+  let body = [];
+  buildBody(head, length, direction);
+
+  function buildBody(head, length, direction) {
+    switch (direction) {
+      case "right":
+        for (let i = 0; i < length; i++) {
+          body.push(head + i);
+        }
+        break;
+      case "down":
+        for (let i = 0; i < length; i++) {
+          body.push(head + i * 10);
+        }
+        break;
+      default:
+        return;
+    }
+  }
+
+  function isHit(coordinate) {
+    for (let i = 0; i < body.length; i++) {
+      if (coordinate == body[i]) {
+        let idx = i;
+        health[idx] = true;
+        break;
+      }
+    }
+  }
+
+  function getBody() {
+    return body;
+  }
+
+  function getHealth() {
+    return health;
+  }
+
+  function isSunk() {
+    let result = health.every((e) => e === true);
+    return result;
+    // code above does this
+    //   let sank = true;
+    //   for (let i = 0; i < health.length; i++) {
+    //     if (health[i] == false) {
+    //       sank = false;
+    //       break;
+    //     }
+    //   }
+    //   return sank;
+    // }
+  }
+
+  return { getBody, getHealth, isHit, isSunk };
+}
+export { createShip };
+module.exports = createShip;
+
 // class Ship {
 //   constructor(head, length, direction) {
 //     this.head = head;
@@ -70,61 +130,3 @@
 //     }
 //   }
 // }
-
-function createShip(temp_head, temp_length, temp_direction) {
-  let head = temp_head;
-  let length = temp_length;
-  let direction = temp_direction;
-  let health = new Array(length).fill(false);
-  let body = [];
-
-  function buildBody(head, length, direction) {
-    switch (direction) {
-      case "right":
-        for (let i = 0; i < length; i++) {
-          body.push(head + i);
-        }
-        break;
-      case "down":
-        for (let i = 0; i < length; i++) {
-          body.push(head + i * 10);
-        }
-        break;
-      default:
-        return;
-    }
-  }
-
-  function isHit(coordinate) {
-    for (let i = 0; i < body.length; i++) {
-      if (coordinate == body[i]) {
-        let idx = i;
-        health[idx] = true;
-        break;
-      }
-    }
-  }
-  function getBody() {
-    buildBody(head, length, direction);
-    return body;
-  }
-  function getHealth() {
-    return health;
-  }
-  function isSunk() {
-    let result = health.every((e) => e === true);
-    return result;
-    // code above does this
-    //   let sank = true;
-    //   for (let i = 0; i < health.length; i++) {
-    //     if (health[i] == false) {
-    //       sank = false;
-    //       break;
-    //     }
-    //   }
-    //   return sank;
-    // }
-  }
-  return { getBody, getHealth, isHit, isSunk };
-}
-module.exports = createShip;

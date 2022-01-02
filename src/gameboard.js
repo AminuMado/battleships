@@ -1,3 +1,5 @@
+import createShip from "./ship.js";
+
 // gameboard factory
 // Note that we have not yet created any User Interface. We should know our code is coming together by running the tests.
 // You shouldn’t be relying on console.logs or DOM methods to make sure your code is doing what you expect it to.
@@ -6,8 +8,9 @@
 // And then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
 // Gameboards should keep track of missed attacks so they can display them properly.
 // Gameboards should be able to report whether or not all of their ships have been sunk.
-function createGameBoard(width, height, ships) {
+function createGameBoard(width, height) {
   let gameboard = [];
+  let ships = {};
   buildBoard();
   /// for example
   //   board [0 0 0 0 0
@@ -16,6 +19,25 @@ function createGameBoard(width, height, ships) {
   //          ]
   function buildBoard() {
     gameboard = new Array(width * height).fill(null);
+  }
+  function getShips() {
+    // you get the ships from the ship factory
+    // save their coordinates in a ships array or object
+    // these ships are an aircraft carrier, battleship, cruiser, submarine, and destroyer
+    const aircraft = createShip(10, 5, "right").getBody();
+    const battleship = createShip(22, 4, "down").getBody();
+    const cruiser = createShip(90, 3, "right").getBody();
+    const submarine = createShip(77, 3, "down").getBody();
+    const destroyer = createShip(66, 2, "right").getBody();
+    ships = { aircraft, battleship, cruiser, submarine, destroyer };
+    return ships;
+    // // { aircraft: [10,11,12,13,14];
+    //      battleship: [22,32,42,52];
+    //         cruiser: [90,91,92];
+    //         submarine:[77,87,97];
+    //         destroyer: [66,68]
+    //     }
+    // or a ship is just [[10,11,12,13,14],[22,32,42,52],[90,91,92],[77,87,97],[66,68]]
   }
   function placeShips() {
     //all you do is place the ships coordinate on the gameboard
@@ -28,8 +50,10 @@ function createGameBoard(width, height, ships) {
     // gameboard[5] = destroyer
     // gameboard[6] = destroyer
     // gameboard[7] = destroyer
+    // take the value of the ship in the array
+    // use the value as the index and place the ship name there
   }
-  function shot(coordinate) {
+  function receiveAttack(coordinate) {
     //if gameboard[coordinate] != null{
     //this is a hit
     //   if (gameboard[coordinate] == destroyer){
@@ -45,5 +69,12 @@ function createGameBoard(width, height, ships) {
     // logic here is it only changes a null to a 0
     // and only changes a ship to a 1
   }
-  return { gameboard };
+  function allShipsSunk() {
+    // just call is sunk for each individual ship
+    // the function call returns a true or a false and if
+    // they are all true then all ships are sunk
+  }
+  return { gameboard, receiveAttack, placeShips, getShips };
 }
+
+module.exports = createGameBoard;
