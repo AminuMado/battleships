@@ -6,3 +6,44 @@
 // And then sends the ‘hit’ function to the correct ship, or records the coordinates of the missed shot.
 // Gameboards should keep track of missed attacks so they can display them properly.
 // Gameboards should be able to report whether or not all of their ships have been sunk.
+function createGameBoard(width, height, ships) {
+  let gameboard = [];
+  buildBoard();
+  /// for example
+  //   board [0 0 0 0 0
+  //          1 s1 0 0
+  //          0  0 s2 s2
+  //          ]
+  function buildBoard() {
+    gameboard = new Array(width * height).fill(null);
+  }
+  function placeShips() {
+    //all you do is place the ships coordinate on the gameboard
+    // ships should be denoted with a ship name
+    // get the position of the ship from its body
+    // place the postion of the ship on the gameboard
+    // eg destroyer.getBody() = [3,4,5,6,7]
+    // gameboard[3] = destroyer
+    // gameboard[4] = destroyer
+    // gameboard[5] = destroyer
+    // gameboard[6] = destroyer
+    // gameboard[7] = destroyer
+  }
+  function shot(coordinate) {
+    //if gameboard[coordinate] != null{
+    //this is a hit
+    //   if (gameboard[coordinate] == destroyer){
+    //       destroyer.isHit(coordinate)
+    //   }
+    // find which ship was hit
+    // call a isHit on the ship
+    // change postion to 1
+    //}
+    //gameboard[coordinate]
+    // this is responsible for placing shots on the gameboard
+    // a shot is denoted with 0 or 1 with 0 denoting a miss and 1 denoting a hit
+    // logic here is it only changes a null to a 0
+    // and only changes a ship to a 1
+  }
+  return { gameboard };
+}
