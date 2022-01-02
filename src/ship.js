@@ -78,16 +78,16 @@ function createShip(temp_head, temp_length, temp_direction) {
   let health = new Array(length).fill(false);
   let body = [];
 
-  function coordinate(head, length, direction) {
+  function buildBody(head, length, direction) {
     switch (direction) {
       case "right":
         for (let i = 0; i < length; i++) {
-          body.push([head[0], head[1] + i]);
+          body.push(head + i);
         }
         break;
       case "down":
         for (let i = 0; i < length; i++) {
-          body.push([head[0] + i, head[1]]);
+          body.push(head + i * 10);
         }
         break;
       default:
@@ -97,16 +97,19 @@ function createShip(temp_head, temp_length, temp_direction) {
 
   function isHit(coordinate) {
     for (let i = 0; i < body.length; i++) {
-      if (body[i][0] == coordinate[0] && body[i][1] == coordinate[1]) {
+      if (coordinate == body[i]) {
         let idx = i;
         health[idx] = true;
-        return health;
+        break;
       }
     }
   }
   function getBody() {
-    coordinate(head, length, direction);
+    buildBody(head, length, direction);
     return body;
+  }
+  function getHealth() {
+    return health;
   }
   function isSunk() {
     let result = health.every((e) => e === true);
@@ -122,6 +125,6 @@ function createShip(temp_head, temp_length, temp_direction) {
     //   return sank;
     // }
   }
-  return { getBody, isHit, isSunk };
+  return { getBody, getHealth, isHit, isSunk };
 }
 module.exports = createShip;
