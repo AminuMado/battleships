@@ -1,10 +1,13 @@
 const createShip = require("../ship.js");
 
 describe("Ship", () => {
-  const destroyer = createShip(0, 5, "right");
+  const destroyer = createShip(0, 5, "horizontal");
 
   test("defines Destroyer ship", () => {
     expect(typeof destroyer).toBe("object");
+  });
+  test("ship name", () => {
+    expect(destroyer.getName()).toBe("aircraft");
   });
   test("defines getBody()", () => {
     expect(typeof destroyer.getBody).toBe("function");
