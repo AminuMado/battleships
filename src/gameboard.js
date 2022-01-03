@@ -18,6 +18,12 @@ function createGameBoard(width, height) {
   //          1 s1 0 0
   //          0  0 s2 s2
   //          ]
+  function getGameBoard() {
+    return gameBoard;
+  }
+  function getShips() {
+    return ships;
+  }
   function buildBoard() {
     gameBoard = new Array(width * height).fill(null);
   }
@@ -29,8 +35,30 @@ function createGameBoard(width, height) {
     shipCoordinate.forEach((element) => {
       gameBoard[element] = shipName;
     });
+    ships.push(ship);
+  }
+  function hit(coordinate) {
+    gameBoard[coordinate] = 1;
+  }
+  function miss(coordinate) {
+    gameBoard[coordinate] = 0;
   }
   function receiveAttack(coordinate) {
+    let location = gameBoard[coordinate];
+    if (location !== null) {
+      //This mean its not an empty spot but it could be an already hit spot or a ship is there or a missed spot
+      if (location !== 1 || location !== 0) {
+        // This means its a ship at the coordinate
+        for (const ship of ships) {
+          let name = ship.getName();
+          if (location === name) {
+            ship.isHit(coordinate);
+            hit(coordinate);
+            break;
+          }
+        }
+      }
+    }
     //if gameboard[coordinate] != null{
     //this is a hit
     //   if (gameboard[coordinate] == destroyer){
@@ -51,7 +79,7 @@ function createGameBoard(width, height) {
     // the function call returns a true or a false and if
     // they are all true then all ships are sunk
   }
-  return { gameBoard, ships, receiveAttack, placeShip, getShips };
+  return { getGameBoard, getShips, receiveAttack, placeShip };
 }
 
 module.exports = createGameBoard;
