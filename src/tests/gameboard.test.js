@@ -14,9 +14,9 @@ describe("gameBoard", () => {
     myBoard.placeShip(22, 4, "vertical");
     myBoard.placeShip(90, 3, "horizontal");
     myBoard.placeShip(66, 2, "vertical");
-    expect(myBoard.getGameBoard()[10]).toStrictEqual("aircraft");
-    expect(myBoard.getGameBoard()[12]).toStrictEqual("aircraft");
-    expect(myBoard.getGameBoard()[14]).toStrictEqual("aircraft");
+    expect(myBoard.getGameBoard()[10]).toBe("aircraft");
+    expect(myBoard.getGameBoard()[12]).toBe("aircraft");
+    expect(myBoard.getGameBoard()[14]).toBe("aircraft");
     expect(myBoard.getGameBoard()[22]).toStrictEqual("battleship");
     expect(myBoard.getGameBoard()[52]).toStrictEqual("battleship");
     expect(myBoard.getGameBoard()[90]).toStrictEqual("submarine");
@@ -43,12 +43,34 @@ describe("gameBoard", () => {
     expect(myBoard.getShips()[0].getHealth()).toStrictEqual([
       true,
       true,
-      false,
+      true,
       true,
       true,
     ]);
   });
-  // test("case 2, miss receiveAttack(50)", () => {
-  //   expect(myBoard.getGameBoard()[99]).toBe(0);
-  // });
+  test("case 2, miss, receiveAttack(50)", () => {
+    myBoard.receiveAttack(99);
+    expect(myBoard.getGameBoard()[99]).toBe(0);
+  });
+  test("defines allShipsSunk()", () => {
+    expect(typeof myBoard.allShipsSunk).toBe("function");
+  });
+  test("case 1, some ships are sunk, allShipsSunk()", () => {
+    myBoard.receiveAttack(1); //miss
+    myBoard.receiveAttack(2); //miss
+    myBoard.receiveAttack(22); //battleship
+    myBoard.receiveAttack(32); //battleship
+    myBoard.receiveAttack(42); //battleship
+    myBoard.receiveAttack(52); //battleship
+    myBoard.receiveAttack(90); //submarine
+    myBoard.receiveAttack(91); //submarine
+    myBoard.receiveAttack(92); //submarine
+    expect(myBoard.allShipsSunk()).toBe(false);
+  });
+  test("case 2, all ships are sunk, allShipsSunk()", () => {
+    myBoard.receiveAttack(66); //destroyer
+    myBoard.receiveAttack(76); //destroyer
+
+    expect(myBoard.allShipsSunk()).toBe(true);
+  });
 });
