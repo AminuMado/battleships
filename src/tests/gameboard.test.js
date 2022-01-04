@@ -1,5 +1,4 @@
 const createGameBoard = require("../gameboard.js");
-const createShip = require("../ship.js");
 describe("gameBoard", () => {
   const myBoard = createGameBoard(10, 10);
 
