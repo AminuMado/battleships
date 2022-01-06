@@ -143,7 +143,7 @@ body {
   text-align: center;
   gap: 2px;
 }
-.ship-container-carrier {
+.ship-type-carrier {
   background-image: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/images/aircraft-carrier.png);
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -157,7 +157,7 @@ body {
   filter: invert(73%) sepia(81%) saturate(870%) hue-rotate(357deg)
     brightness(95%) contrast(93%);
 }
-.ship-container-battleship {
+.ship-type-battleship {
   background-image: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/images/battleship.png);
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -171,7 +171,7 @@ body {
   filter: invert(73%) sepia(81%) saturate(870%) hue-rotate(357deg)
     brightness(95%) contrast(93%);
 }
-.ship-container-cruiser {
+.ship-type-cruiser {
   background-image: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/images/cruiser.svg);
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -185,7 +185,7 @@ body {
   filter: invert(73%) sepia(81%) saturate(870%) hue-rotate(357deg)
     brightness(95%) contrast(93%);
 }
-.ship-container-destroyer {
+.ship-type-destroyer {
   background-image: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/images/destroyer.svg);
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -199,7 +199,7 @@ body {
   filter: invert(73%) sepia(81%) saturate(870%) hue-rotate(357deg)
     brightness(95%) contrast(93%);
 }
-.ship-container-submarine {
+.ship-type-submarine {
   background-image: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/images/submarine.svg);
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -213,7 +213,7 @@ body {
   filter: invert(73%) sepia(81%) saturate(870%) hue-rotate(357deg)
     brightness(95%) contrast(93%);
 }
-.ship-container-patrol {
+.ship-type-patrol {
   background-image: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/images/patrol.svg);
   -webkit-background-size: cover;
   -moz-background-size: cover;
