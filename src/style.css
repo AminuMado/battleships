@@ -80,7 +80,7 @@ body {
   position: relative;
 }
 .ships {
-  background: cornflowerblue;
+  color: red;
 }
 .ship-placement-container {
   position: relative;
@@ -93,7 +93,7 @@ body {
   grid-template-columns: repeat(10, 4rem);
   grid-template-areas: none;
   text-align: center;
-  gap: 2px;
+  grid-gap: 3px;
   pointer-events: none;
 }
 .ships-placed-container {
@@ -107,17 +107,18 @@ body {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  background-color: gray;
-  grid-gap: 2px;
+  grid-gap: 3px;
+  background-color: whitesmoke;
+  border: 3px solid whitesmoke;
 }
 .grid-cell {
   transition: all 90ms ease-in;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #7c6a0a;
   width: 4rem;
   height: 4rem;
+  background-color: black;
 }
 .grid-cell:hover {
   background-color: #a1c6ea;
