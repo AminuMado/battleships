@@ -244,6 +244,7 @@ import "./style.css";
 const shipsContainer = document.querySelectorAll(".ship");
 // lets grab the board to be appended to
 const boardCells = document.querySelectorAll(".grid-cell");
+const rotateBtn = document.querySelector(".rotate");
 
 // the objective is to append a selected ship into a grid cell
 // Id need to select the ship
@@ -279,7 +280,15 @@ boardCells.forEach((cell) => {
     console.log(cell);
   });
 });
-
+rotateBtn.addEventListener("click", (e) => {
+  if (activeShip == null) return;
+  clearShip();
+  rotateShip();
+});
+function rotateShip() {
+  activeShip.direction =
+    activeShip.direction == "horizontal" ? "vertical" : "horizontal";
+}
 function clearActiveShip() {
   shipsContainer.forEach((ship) => ship.classList.remove("active"));
 }
