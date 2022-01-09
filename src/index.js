@@ -257,10 +257,10 @@ let activeShip = null;
 
 // set event listner on ships
 let ships = [
-  { name: "cruiser", length: 5, head: "", direction: "horizontal" },
-  { name: "destroyer", length: 4, head: "", direction: "horizontal" },
-  { name: "submarine", length: 3, head: "", direction: "horizontal" },
-  { name: "patrol", length: 2, head: "", direction: "horizontal" },
+  { name: "cruiser", length: 5, direction: "horizontal", body: [] },
+  { name: "destroyer", length: 4, direction: "horizontal", body: [] },
+  { name: "submarine", length: 3, direction: "horizontal", body: [] },
+  { name: "patrol", length: 2, direction: "horizontal", body: [] },
 ];
 shipsContainer.forEach((ship, index) => {
   ship.addEventListener("click", (e) => {
@@ -274,9 +274,10 @@ boardCells.forEach((cell) => {
   cell.addEventListener("click", (e) => {
     let idx = parseInt(cell.getAttribute("data-id"));
     if (activeShip === null) return;
-    activeShip.head = idx;
+
     clearShip();
-    placeShip(activeShip.head, activeShip.direction);
+    generateShipBody(idx, activeShip.direction, activeShip.length);
+    placeShip(activeShip.body);
     console.log(cell);
   });
 });
@@ -299,19 +300,56 @@ function switchActiveShip(index) {
 function clearShip() {
   [...boardCells].filter((cell) => {
     let result = cell.classList.contains(activeShip.name);
-    if (result) cell.classList.remove(activeShip.name);
+    if (result) {
+      cell.classList.remove(activeShip.name);
+      cell.classList.remove("taken");
+    }
   });
 }
-function placeShip(head, direction) {
+function placeShip(coordinates) {
+  coordinates.forEach((cell) => {
+    boardCells[cell].classList.add(activeShip.name);
+    boardCells[cell].classList.add("taken");
+  });
+}
+function generateShipBody(head, direction, length) {
+  let body = [];
+  let valid = false;
   if (direction === "horizontal") {
-    for (let i = 0; i < activeShip.length; i++) {
-      boardCells[head + i].classList.add(activeShip.name);
+    for (let i = 0; i < length; i++) {
+      body.push([head + i]);
+      valid = true;
     }
   } else
-    for (let i = 0; i < activeShip.length; i++) {
-      boardCells[head + i * 10].classList.add(activeShip.name);
+    for (let i = 0; i < length; i++) {
+      body.push([head + i * 10]);
+      valid = true;
     }
+  if (valid) activeShip.body = body;
+  return valid;
 }
+function isTaken(coordinate) {
+  let taken = coordinate.some((cell) => {
+    boardCells[cell].classList.contains("taken");
+  });
+}
+function isOutsideBoundary(coordinate, length) {
+  let;
+}
+const isTaken = activeShip.body.some((index) =>
+  [randomStart + index].classList.contains("taken")
+);
+const isAtRightEdge = current.some(
+  (index) => (randomStart + index) % width === width - 1
+);
+const isAtLeftEdge = current.some(
+  (index) => (randomStart + index) % width === 0
+);
+
+// Generate at random
+// randomize direction
+// randomize head
+// check valid spot
 // i want a visual aid that shows where you want your ship to be at
 // i want to add the ship properties to the grid cell itself
 // i want to change the styling of the grid cell
