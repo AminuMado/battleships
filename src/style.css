@@ -105,11 +105,13 @@ body {
   transition: all 90ms ease-in;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border: 4px solid black;
+  position: relative;
+  box-sizing: border-box;
 }
+
 .grid-cell:hover {
   background-color: #a1c6ea;
 }
@@ -140,17 +142,25 @@ body {
   font-size: 2.6rem;
   width: 5rem;
 }
-.ship {
-  display: grid;
-  grid-auto-flow: column;
-  background-color: grey;
-  grid-gap: 4px;
-  cursor: move;
-  z-index: 1;
+
+.active {
+  filter: invert(64%) sepia(71%) saturate(411%) hue-rotate(355deg)
+    brightness(91%) contrast(92%);
 }
-.part {
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: grey;
-  border: 7px solid #464646;
+
+.cruiser {
+  background-color: brown;
+  border: 7px solid;
+}
+.destroyer {
+  background-color: teal;
+  border: 7px solid;
+}
+.submarine {
+  background-color: blueviolet;
+  border: 7px solid;
+}
+.patrol {
+  background-color: lawngreen;
+  border: 7px solid;
 }
