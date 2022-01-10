@@ -274,10 +274,14 @@ boardCells.forEach((cell) => {
   cell.addEventListener("click", (e) => {
     let idx = parseInt(cell.getAttribute("data-id"));
     if (activeShip === null) return;
-
-    clearShip();
     generateShipBody(idx, activeShip.direction, activeShip.length);
-    placeShip(activeShip.body);
+    if (biggerThan99(activeShip.body)) return;
+    console.log(activeShip.body);
+    clearShip();
+    if (!isTaken(activeShip.body) && !isOutsideBoundary(activeShip.body)) {
+      placeShip(activeShip.body);
+    } else alert("outside boundry");
+
     console.log(cell);
   });
 });
@@ -317,47 +321,39 @@ function generateShipBody(head, direction, length) {
   let valid = false;
   if (direction === "horizontal") {
     for (let i = 0; i < length; i++) {
-      body.push([head + i]);
+      let coordinate = [head + i];
+      body.push(coordinate);
       valid = true;
     }
   } else
     for (let i = 0; i < length; i++) {
-      body.push([head + i * 10]);
+      let coordinate = [head + i * 10];
+      body.push(coordinate);
       valid = true;
     }
   if (valid) activeShip.body = body;
   return valid;
 }
 function isTaken(coordinate) {
-  let taken = coordinate.some((cell) => {
-    boardCells[cell].classList.contains("taken");
-  });
+  let result = false;
+  for (let i = 0; i < coordinate.length - 1; i++) {
+    let cell = coordinate[i];
+    if (boardCells[cell].classList.contains("taken")) {
+      result = true;
+      break;
+    }
+  }
+  return result;
 }
-function isOutsideBoundary(coordinate, length) {
-  let;
+function isOutsideBoundary(coordinate) {
+  let result = false;
+  for (let i = 0; i < coordinate.length - 1; i++) {
+    if (coordinate[i] % 10 === 9) {
+      result = true;
+    }
+  }
+  return result;
 }
-const isTaken = activeShip.body.some((index) =>
-  [randomStart + index].classList.contains("taken")
-);
-const isAtRightEdge = current.some(
-  (index) => (randomStart + index) % width === width - 1
-);
-const isAtLeftEdge = current.some(
-  (index) => (randomStart + index) % width === 0
-);
-
-// Generate at random
-// randomize direction
-// randomize head
-// check valid spot
-// i want a visual aid that shows where you want your ship to be at
-// i want to add the ship properties to the grid cell itself
-// i want to change the styling of the grid cell
-// i can have a ships object that stores all the information for creating a ship on the ui
-// eg { name : carrier,
-// head: ??
-// direction: ??
-// length: 5}
-// ships.forEach((ship)=>{
-//   createShip(ship.head,ship.direction,ship.length)
-// })
+function biggerThan99(coordinate) {
+  return coordinate.some((element) => element > 99);
+}
