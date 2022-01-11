@@ -258,7 +258,8 @@ let activeShip = null;
 // set event listner on ships
 let ships = [
   { name: "cruiser", length: 5, direction: "horizontal", body: [] },
-  { name: "destroyer", length: 4, direction: "horizontal", body: [] },
+  { name: "battleship", length: 4, direction: "horizontal", body: [] },
+  { name: "destroyer", length: 3, direction: "horizontal", body: [] },
   { name: "submarine", length: 3, direction: "horizontal", body: [] },
   { name: "patrol", length: 2, direction: "horizontal", body: [] },
 ];
@@ -279,13 +280,14 @@ boardCells.forEach((cell) => {
       activeShip.direction,
       activeShip.length
     );
-    // if (biggerThan99(activeShip.body)) return;
+
     console.log(activeShip.body);
-    clearShip(activeShip);
+
     if (isOutsideBoundary(activeShip)) {
       alert("outside boundry");
       return;
     }
+    clearShip(activeShip);
     if (isTaken(activeShip)) {
       alert("is taken");
       return;
