@@ -448,6 +448,10 @@ boardCells.forEach((cell) => {
     valid = true;
   });
 });
+board.addEventListener("mouseleave", (e) => {
+  clearHover();
+});
+
 function addHover(ship) {
   ship.body.forEach((cell) => {
     boardCells[cell].classList.add("hover");
