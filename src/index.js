@@ -239,12 +239,24 @@ import "./style.css";
 //     );
 //   else generate(ship);
 // }
+/// generate board
 
+const generateBoard = (() => {
+  const board = document.querySelector(".board-container");
+
+  for (let i = 0; i < 100; i++) {
+    let div = document.createElement("div");
+    div.classList.add("grid-cell");
+    div.dataset.id = i;
+    board.appendChild(div);
+  }
+})();
 // lets grab the corresponding ships divs
 const shipsContainer = document.querySelectorAll(".ship");
 // lets grab the board to be appended to
 const boardCells = document.querySelectorAll(".grid-cell");
 const rotateBtn = document.querySelector(".rotate");
+const board = document.querySelector(".board-container");
 
 // the objective is to append a selected ship into a grid cell
 // Id need to select the ship
@@ -271,31 +283,39 @@ shipsContainer.forEach((ship, index) => {
   });
 });
 // set event listner on grids
-boardCells.forEach((cell) => {
-  cell.addEventListener("click", (e) => {
-    let idx = parseInt(cell.getAttribute("data-id"));
+let valid = false;
+board.addEventListener("click", (e) => {
+  let cell = e.target.classList.contains("grid-cell");
+  if (cell) {
     if (activeShip === null) return;
-    activeShip.body = generateShipBody(
-      idx,
-      activeShip.direction,
-      activeShip.length
-    );
-
-    console.log(activeShip.body);
-
-    if (isOutsideBoundary(activeShip)) {
-      alert("outside boundry");
-      return;
-    }
+    if (!valid) return;
     clearShip(activeShip);
-    if (isTaken(activeShip)) {
-      alert("is taken");
-      return;
-    }
     placeShip(activeShip);
-    console.log(cell);
-  });
+  }
+  return;
+  let idx = parseInt(cell.getAttribute("data-id"));
+
+  // activeShip.body = generateShipBody(
+  //   idx,
+  //   activeShip.direction,
+  //   activeShip.length
+  // );
+
+  // console.log(activeShip.body);
+
+  // if (isOutsideBoundary(activeShip)) {
+  //   alert("outside boundry");
+  //   return;
+  // }
+  //
+  // if (isTaken(activeShip)) {
+  //   alert("is taken");
+  //   return;
+  // }
+
+  // console.log(cell);
 });
+
 rotateBtn.addEventListener("click", (e) => {
   if (activeShip == null) return;
   clearShip(activeShip);
@@ -358,10 +378,11 @@ function isTaken(ship) {
 }
 function isOutsideBoundary(ship) {
   let result = false;
+  for (let i = 0; i < ship.length - 1; i++) {
+    if (ship.body[i] % 10 === 9) result = true;
+  }
   for (let i = 0; i < ship.length; i++) {
-    if (ship.body[i] % 10 === 9 || ship.body[i] > 99) {
-      result = true;
-    }
+    if (ship.body[i] > 99) result = true;
   }
   return result;
 }
@@ -387,18 +408,7 @@ function randomize(ship) {
   }
   clearShip(ship);
   placeShip(ship);
-  // // ships
-  // ships[0]// carrier
-  // ships[1]
-  // ships[2]
-  // ships[3]
-  // ships[4]
-  // ship.direction =
-  // if (biggerThan99(activeShip.body)) return;
-  // clearShip();
-  // if (!isTaken(activeShip.body) && !isOutsideBoundary(activeShip.body)) {
-  //   placeShip(activeShip.body);
-  //}
+
   console.log(randomDirection);
 }
 // random button
@@ -406,3 +416,52 @@ const randomBtn = document.querySelector(".random");
 randomBtn.addEventListener("click", (e) => {
   ships.forEach((ship) => randomize(ship));
 });
+
+// to take the ship body array
+// add a background color to the affected spots
+// if its valid if its not
+// do nothing
+// event lisner on grids
+boardCells.forEach((cell) => {
+  cell.addEventListener("mouseover", (e) => {
+    if (activeShip === null) return;
+    console.log(e.currentTarget);
+    let idx = parseInt(cell.getAttribute("data-id"));
+    activeShip.body = generateShipBody(
+      idx,
+      activeShip.direction,
+      activeShip.length
+    );
+    clearHover();
+    if (isOutsideBoundary(activeShip)) {
+      cell.style.cursor = "not-allowed";
+      valid = false;
+      return;
+    }
+
+    if (isTaken(activeShip)) {
+      cell.style.cursor = "not-allowed";
+      valid = false;
+      return;
+    }
+    addHover(activeShip);
+    valid = true;
+  });
+});
+function addHover(ship) {
+  ship.body.forEach((cell) => {
+    boardCells[cell].classList.add("hover");
+  });
+}
+function clearHover() {
+  [...boardCells].filter((cell) => {
+    let hover = cell.classList.contains("hover");
+    let cursor = cell.style.cursor;
+    if (hover) {
+      cell.classList.remove("hover");
+    }
+    if (cursor === "not-allowed") {
+      cell.style.cursor = "pointer";
+    }
+  });
+}
