@@ -274,20 +274,29 @@ boardCells.forEach((cell) => {
   cell.addEventListener("click", (e) => {
     let idx = parseInt(cell.getAttribute("data-id"));
     if (activeShip === null) return;
-    generateShipBody(idx, activeShip.direction, activeShip.length);
-    if (biggerThan99(activeShip.body)) return;
+    activeShip.body = generateShipBody(
+      idx,
+      activeShip.direction,
+      activeShip.length
+    );
+    // if (biggerThan99(activeShip.body)) return;
     console.log(activeShip.body);
-    clearShip();
-    if (!isTaken(activeShip.body) && !isOutsideBoundary(activeShip.body)) {
-      placeShip(activeShip.body);
-    } else alert("outside boundry");
-
+    clearShip(activeShip);
+    if (isOutsideBoundary(activeShip)) {
+      alert("outside boundry");
+      return;
+    }
+    if (isTaken(activeShip)) {
+      alert("is taken");
+      return;
+    }
+    placeShip(activeShip);
     console.log(cell);
   });
 });
 rotateBtn.addEventListener("click", (e) => {
   if (activeShip == null) return;
-  clearShip();
+  clearShip(activeShip);
   rotateShip();
 });
 function rotateShip() {
@@ -301,18 +310,18 @@ function switchActiveShip(index) {
   clearActiveShip();
   shipsContainer[index].classList.add("active");
 }
-function clearShip() {
+function clearShip(ship) {
   [...boardCells].filter((cell) => {
-    let result = cell.classList.contains(activeShip.name);
+    let result = cell.classList.contains(ship.name);
     if (result) {
-      cell.classList.remove(activeShip.name);
+      cell.classList.remove(ship.name);
       cell.classList.remove("taken");
     }
   });
 }
-function placeShip(coordinates) {
-  coordinates.forEach((cell) => {
-    boardCells[cell].classList.add(activeShip.name);
+function placeShip(ship) {
+  ship.body.forEach((cell) => {
+    boardCells[cell].classList.add(ship.name);
     boardCells[cell].classList.add("taken");
   });
 }
@@ -331,13 +340,13 @@ function generateShipBody(head, direction, length) {
       body.push(coordinate);
       valid = true;
     }
-  if (valid) activeShip.body = body;
-  return valid;
+
+  return body;
 }
-function isTaken(coordinate) {
+function isTaken(ship) {
   let result = false;
-  for (let i = 0; i < coordinate.length - 1; i++) {
-    let cell = coordinate[i];
+  for (let i = 0; i < ship.length; i++) {
+    let cell = ship.body[i];
     if (boardCells[cell].classList.contains("taken")) {
       result = true;
       break;
@@ -345,15 +354,53 @@ function isTaken(coordinate) {
   }
   return result;
 }
-function isOutsideBoundary(coordinate) {
+function isOutsideBoundary(ship) {
   let result = false;
-  for (let i = 0; i < coordinate.length - 1; i++) {
-    if (coordinate[i] % 10 === 9) {
+  for (let i = 0; i < ship.length; i++) {
+    if (ship.body[i] % 10 === 9 || ship.body[i] > 99) {
       result = true;
     }
   }
   return result;
 }
-function biggerThan99(coordinate) {
-  return coordinate.some((element) => element > 99);
+// function biggerThan99(coordinate) {
+//   return coordinate.some((element) => element > 99);
+// }
+function randomize(ship) {
+  let randomDirection = Math.floor(Math.random() * 2);
+  let randomSpot = Math.floor(Math.random() * 99);
+  if (randomDirection === 0) {
+    randomDirection = "horizontal";
+  } else randomDirection = "vertical";
+  ship.direction = randomDirection;
+  ship.body = generateShipBody(randomSpot, ship.direction, ship.length);
+
+  if (isOutsideBoundary(ship)) {
+    randomize(ship);
+    return;
+  }
+  if (isTaken(ship)) {
+    randomize(ship);
+    return;
+  }
+  clearShip(ship);
+  placeShip(ship);
+  // // ships
+  // ships[0]// carrier
+  // ships[1]
+  // ships[2]
+  // ships[3]
+  // ships[4]
+  // ship.direction =
+  // if (biggerThan99(activeShip.body)) return;
+  // clearShip();
+  // if (!isTaken(activeShip.body) && !isOutsideBoundary(activeShip.body)) {
+  //   placeShip(activeShip.body);
+  //}
+  console.log(randomDirection);
 }
+// random button
+const randomBtn = document.querySelector(".random");
+randomBtn.addEventListener("click", (e) => {
+  ships.forEach((ship) => randomize(ship));
+});
