@@ -242,13 +242,18 @@ import "./style.css";
 /// generate board
 
 const generateBoard = (() => {
-  const board = document.querySelector(".board-container");
-
+  const p1Board = document.querySelector("#p1-board");
+  let p2Board = document.querySelector("#p2-board");
   for (let i = 0; i < 100; i++) {
-    let div = document.createElement("div");
-    div.classList.add("grid-cell");
-    div.dataset.id = i;
-    board.appendChild(div);
+    let cell1 = document.createElement("div");
+    let cell2 = document.createElement("div");
+
+    cell1.classList.add("grid-cell");
+    cell1.dataset.id = i;
+    cell2.classList.add("grid-cell");
+    cell2.dataset.id = i;
+    p1Board.appendChild(cell1);
+    p2Board.appendChild(cell2);
   }
 })();
 // lets grab the corresponding ships divs
@@ -256,7 +261,7 @@ const shipsContainer = document.querySelectorAll(".ship");
 // lets grab the board to be appended to
 const boardCells = document.querySelectorAll(".grid-cell");
 const rotateBtn = document.querySelector(".rotate");
-const board = document.querySelector(".board-container");
+const board = document.querySelector("#p1-board");
 
 // the objective is to append a selected ship into a grid cell
 // Id need to select the ship
@@ -471,8 +476,14 @@ function clearHover() {
 }
 /// start button
 const startBtn = document.querySelector(".start");
-startBtn.addEventListener("click", startPage);
-function startPage() {
-  const startPage = document.querySelector(".start-game-page");
-  startPage.classList.remove("show");
+startBtn.addEventListener("click", startGame);
+function startGame() {
+  const p1Board = document.querySelector("#p1-board");
+  const p2Board = document.querySelector("#p2-board");
+  const shipSelectionContainer = document.querySelector(
+    ".ship-selection-container"
+  );
+  p1Board.classList.add("disable");
+  p2Board.classList.add("show");
+  shipSelectionContainer.classList.add("inactive");
 }
