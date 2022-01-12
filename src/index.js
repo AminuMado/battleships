@@ -469,3 +469,10 @@ function clearHover() {
     }
   });
 }
+/// start button
+const startBtn = document.querySelector(".start");
+startBtn.addEventListener("click", startPage);
+function startPage() {
+  const startPage = document.querySelector(".start-game-page");
+  startPage.classList.remove("show");
+}

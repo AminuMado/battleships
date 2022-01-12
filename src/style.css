@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600&display=swap");
 * {
   margin: 0;
+  padding: 0;
 }
 body {
   display: grid;
@@ -67,12 +68,19 @@ body {
 
 /* now we actually start */
 .start-game-page {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   gap: 60px;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 1s ease-in-out;
 }
-
+.show {
+  display: flex;
+  transform: scale(1);
+  opacity: 1;
+}
 .board-container {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -152,4 +160,14 @@ body {
 }
 .hover {
   background-color: aliceblue;
+}
+/* game board */
+.game-page {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  gap: 12%;
+}
+.computer-section {
+  transform: scale(1.3);
 }
