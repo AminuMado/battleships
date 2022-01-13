@@ -2,10 +2,11 @@ function createShip(head, length, direction) {
   let health = new Array(length).fill(false);
   let body = [];
   let name = null;
-  buildBody(head, length, direction);
+  body = buildBody(head, length, direction);
   setName(length);
 
   function buildBody(head, length, direction) {
+    let body = [];
     switch (direction) {
       case "horizontal":
         for (let i = 0; i < length; i++) {
@@ -20,6 +21,7 @@ function createShip(head, length, direction) {
       default:
         return;
     }
+    return body;
   }
 
   function isHit(coordinate) {
