@@ -204,21 +204,6 @@ h4 {
 }
 /* hover styling */
 
-/* .p2-grid-cell:hover::before {
-  content: "";
-  display: block;
-  position: absolute;
-  height: 70%;
-  width: 70%;
-  left: 15%;
-  top: 15%;
-  z-index: 1;
-  background: red;
-  border-radius: 50%;
-  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
-  animation: pulse 1.5s ease 0s infinite normal none running gSdDHe;
-} */
-
 .p2-grid-cell:hover::after {
   content: "";
   position: absolute;
@@ -273,4 +258,35 @@ h4 {
     opacity: 0;
     transform: scale(1.5);
   }
+}
+/* hit and miss */
+.miss {
+  background-color: aqua;
+  pointer-events: none;
+}
+
+.miss:after {
+  content: "\f111";
+  position: absolute;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 15px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: aqua;
+}
+.hit {
+  background-color: firebrick;
+  pointer-events: none;
+}
+.hit:after {
+  content: "\f00d";
+  position: absolute;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 20px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
