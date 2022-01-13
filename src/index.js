@@ -216,8 +216,14 @@ function startGame() {
   const shipSelectionContainer = document.querySelector(
     ".ship-selection-container"
   );
+  const boardInfo = document.querySelector(".board-info");
+  console.log(boardInfo);
   p1BoardContainer.classList.add("disable");
   p2BoardContainer.classList.add("show");
   shipSelectionContainer.classList.add("inactive");
+  boardInfo.classList.remove("inactive");
   activeShip = null;
 }
+
+/// now we are at the computer board
+// wee need to play
