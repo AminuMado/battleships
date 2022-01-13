@@ -103,6 +103,9 @@ body {
   position: relative;
   box-sizing: border-box;
 }
+.board-info {
+  transition: all 1s ease-in-out;
+}
 h3 {
   border-bottom: 2px solid;
   text-align: center;
@@ -198,4 +201,76 @@ h4 {
   opacity: 0.8;
   transition: all 1s ease-in-out;
   pointer-events: none;
+}
+/* hover styling */
+
+/* .p2-grid-cell:hover::before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 70%;
+  width: 70%;
+  left: 15%;
+  top: 15%;
+  z-index: 1;
+  background: red;
+  border-radius: 50%;
+  box-shadow: rgb(0, 0, 0) 0px 0px 0px 0px;
+  animation: pulse 1.5s ease 0s infinite normal none running gSdDHe;
+} */
+
+.p2-grid-cell:hover::after {
+  content: "";
+  position: absolute;
+  left: 25%;
+  top: 25%;
+  height: 50%;
+  width: 50%;
+  border-radius: 50%;
+  background: #dd1c1a;
+  display: block;
+  animation: pulse 1.5s ease 0s infinite;
+}
+
+.p2-grid-cell:hover::before {
+  content: "";
+  position: absolute;
+  left: 25%;
+  top: 25%;
+  height: 50%;
+  width: 50%;
+  border-radius: 50%;
+  background: #c1292e;
+  display: block;
+  animation: pulse2 1.5s ease 0s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(0.5);
+  }
+  80% {
+    opacity: 0;
+    transform: scale(2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+@keyframes pulse2 {
+  0% {
+    opacity: 1;
+    transform: scale(0.5);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
 }
