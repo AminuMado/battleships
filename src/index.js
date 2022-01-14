@@ -26,6 +26,7 @@ const shipsContainer = document.querySelectorAll(".ship");
 // lets grab the board to be appended to
 const p1BoardCells = document.querySelectorAll(".p1-grid-cell");
 console.log(p1BoardCells);
+const p2BoardCells = document.querySelectorAll(".p2-grid-cell");
 const rotateBtn = document.querySelector(".rotate");
 const p1Board = document.querySelector(".p1-board");
 let direction = "horizontal";
@@ -243,11 +244,36 @@ function computerSetup() {
   ships.forEach((ship) => randomize(ship));
   //this means your ships arrays have a body in them ready to placed on a board
   ships.forEach((ship) => computerBoard.placeShip(ship));
+  return computerBoard;
 }
-
+const computerBoard = computerSetup();
 // how to attack is by selecting an index and calling the
 // recieve attack function from the opposing board
 // for the ai they select a spot thats not attacked yet
 // and attack that spot
 
 // for the player you select a spot on the opponenet board
+// start with the input
+const p2Board = document.querySelector(".p2-board");
+p2Board.addEventListener("click", (e) => {
+  let cell = e.target;
+
+  let idx = parseInt(cell.getAttribute("data-id"));
+  // i want to be able to call recieveAttack on the gameboard
+  computerBoard.receiveAttack(idx);
+  console.log(computerBoard.getGameBoard());
+  render();
+});
+function render() {
+  computerBoard.getGameBoard().forEach((cell, index) => {
+    if (cell == 0) {
+      //miss
+
+      p2BoardCells[index].classList.add("miss");
+    } else if (cell === 1) {
+      //hit
+
+      p2BoardCells[index].classList.add("hit");
+    }
+  });
+}
