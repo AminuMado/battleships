@@ -3,6 +3,8 @@ import { createShip } from "./ship";
 import { createGameBoard } from "./gameboard";
 import { createPlayer } from "./player";
 
+let playerBoard;
+let computerBoard;
 // board Dimensions
 const boardWidth = 10;
 const boardHeight = 10;
@@ -34,7 +36,7 @@ let direction = "horizontal";
 let activeShip = null;
 
 // set event listner on ships
-let ships = [
+let playerShips = [
   createShip("cruiser", 5),
   createShip("battleship", 4),
   createShip("destroyer", 3),
@@ -43,7 +45,7 @@ let ships = [
 ];
 shipsContainer.forEach((ship, index) => {
   ship.addEventListener("click", (e) => {
-    activeShip = ships[index];
+    activeShip = playerShips[index];
     switchActiveShip(index);
     console.log(activeShip);
   });
@@ -113,10 +115,6 @@ function randomize(ship) {
     randomize(ship);
     return;
   }
-  clearShip(ship);
-  placeShip(ship);
-
-  console.log(randomDirection);
 }
 function isTaken(ship) {
   let body = ship.getBody();
@@ -152,7 +150,11 @@ function isOutsideBoundary(ship) {
 // random button
 const randomBtn = document.querySelector(".random");
 randomBtn.addEventListener("click", (e) => {
-  ships.forEach((ship) => randomize(ship));
+  playerShips.forEach((ship) => {
+    randomize(ship);
+    clearShip(ship);
+    placeShip(ship);
+  });
 });
 
 // to take the ship body array
@@ -221,6 +223,9 @@ function startGame() {
   shipSelectionContainer.classList.add("inactive");
   boardInfo.classList.remove("inactive");
   activeShip = null;
+  playerBoard = playerSetup();
+  console.log(playerBoard.getGameBoard());
+  computerBoard = computerSetup();
 }
 
 // The setups below creates the players and their boards after
@@ -228,12 +233,13 @@ function startGame() {
 function playerSetup() {
   const player = createPlayer("Player", "human", boardHeight, boardWidth);
   const playerBoard = player.getGameBoard();
-  ships.forEach((ship) => playerBoard.placeShip(ship));
+  playerShips.forEach((ship) => playerBoard.placeShip(ship));
+  return playerBoard;
 }
 function computerSetup() {
   const computer = createPlayer("Player2", "computer", boardWidth, boardHeight);
   const computerBoard = computer.getGameBoard();
-  const ships = [
+  const computerShips = [
     createShip("cruiser", 5),
     createShip("battleship", 4),
     createShip("destroyer", 3),
@@ -241,12 +247,16 @@ function computerSetup() {
     createShip("patrol", 2),
   ];
   // this generates the ships at random locations
-  ships.forEach((ship) => randomize(ship));
+  computerShips.forEach((ship) => {
+    randomize(ship);
+  });
   //this means your ships arrays have a body in them ready to placed on a board
-  ships.forEach((ship) => computerBoard.placeShip(ship));
+  computerShips.forEach((computerShip) =>
+    computerBoard.placeShip(computerShip)
+  );
   return computerBoard;
 }
-const computerBoard = computerSetup();
+
 // how to attack is by selecting an index and calling the
 // recieve attack function from the opposing board
 // for the ai they select a spot thats not attacked yet
@@ -261,7 +271,6 @@ p2Board.addEventListener("click", (e) => {
   let idx = parseInt(cell.getAttribute("data-id"));
   // i want to be able to call recieveAttack on the gameboard
   computerBoard.receiveAttack(idx);
-  console.log(computerBoard.getGameBoard());
   render();
 });
 function render() {
@@ -276,4 +285,10 @@ function render() {
       p2BoardCells[index].classList.add("hit");
     }
   });
+}
+function computerAttack() {
+  let randomSpot = Math.floor(Math.random() * 99);
+  if (playerBoard.getGameBoard()[randomSpot] === null) {
+    playerBoard.receiveAttack(randomSpot);
+  } else computerAttack();
 }
