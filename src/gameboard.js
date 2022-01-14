@@ -26,8 +26,7 @@ function createGameBoard(width, height) {
     gameBoard = new Array(width * height).fill(null);
   }
 
-  function placeShip(head, length, direction) {
-    const ship = createShip(head, length, direction);
+  function placeShip(ship) {
     const shipName = ship.getName();
     const shipCoordinate = ship.getBody();
     shipCoordinate.forEach((element) => {
@@ -67,5 +66,5 @@ function createGameBoard(width, height) {
   }
   return { getGameBoard, getShips, receiveAttack, placeShip, allShipsSunk };
 }
-
-module.exports = createGameBoard;
+export { createGameBoard };
+// module.exports = createGameBoard;

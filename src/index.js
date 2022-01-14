@@ -1,5 +1,11 @@
 import "./style.css";
+import { createShip } from "./ship";
+import { createGameBoard } from "./gameboard";
+import { createPlayer } from "./player";
 
+// board Dimensions
+const boardWidth = 10;
+const boardHeight = 10;
 const generateBoard = (() => {
   const p1Board = document.querySelector(".p1-board");
   let p2Board = document.querySelector(".p2-board");
@@ -22,17 +28,17 @@ const p1BoardCells = document.querySelectorAll(".p1-grid-cell");
 console.log(p1BoardCells);
 const rotateBtn = document.querySelector(".rotate");
 const p1Board = document.querySelector(".p1-board");
-
+let direction = "horizontal";
 // select a ship
 let activeShip = null;
 
 // set event listner on ships
 let ships = [
-  { name: "cruiser", length: 5, direction: "horizontal", body: [] },
-  { name: "battleship", length: 4, direction: "horizontal", body: [] },
-  { name: "destroyer", length: 3, direction: "horizontal", body: [] },
-  { name: "submarine", length: 3, direction: "horizontal", body: [] },
-  { name: "patrol", length: 2, direction: "horizontal", body: [] },
+  createShip("cruiser", 5),
+  createShip("battleship", 4),
+  createShip("destroyer", 3),
+  createShip("submarine", 3),
+  createShip("patrol", 2),
 ];
 shipsContainer.forEach((ship, index) => {
   ship.addEventListener("click", (e) => {
@@ -55,15 +61,14 @@ p1Board.addEventListener("click", (e) => {
 });
 // event
 rotateBtn.addEventListener("click", (e) => {
-  if (activeShip == null) return;
-  clearShip(activeShip);
-  rotateShip();
+  direction = direction == "horizontal" ? "vertical" : "horizontal";
 });
 //funtions
-function rotateShip() {
-  activeShip.direction =
-    activeShip.direction == "horizontal" ? "vertical" : "horizontal";
-}
+// not needed
+// function rotateShip() {
+//   activeShip.direction =
+//     activeShip.direction == "horizontal" ? "vertical" : "horizontal";
+// }
 function clearActiveShip() {
   shipsContainer.forEach((ship) => ship.classList.remove("active"));
 }
@@ -72,59 +77,22 @@ function switchActiveShip(index) {
   shipsContainer[index].classList.add("active");
 }
 function clearShip(ship) {
+  let name = ship.getName();
   [...p1BoardCells].filter((cell) => {
-    let result = cell.classList.contains(ship.name);
+    let result = cell.classList.contains(name);
     if (result) {
-      cell.classList.remove(ship.name);
+      cell.classList.remove(name);
       cell.classList.remove("taken");
     }
   });
 }
 function placeShip(ship) {
-  ship.body.forEach((cell) => {
-    p1BoardCells[cell].classList.add(ship.name);
+  let name = ship.getName();
+  let body = ship.getBody();
+  body.forEach((cell) => {
+    p1BoardCells[cell].classList.add(name);
     p1BoardCells[cell].classList.add("taken");
   });
-}
-//to be replaced with the build body function in ship.js
-function generateShipBody(head, direction, length) {
-  let body = [];
-  let valid = false;
-  if (direction === "horizontal") {
-    for (let i = 0; i < length; i++) {
-      let coordinate = [head + i];
-      body.push(coordinate);
-      valid = true;
-    }
-  } else
-    for (let i = 0; i < length; i++) {
-      let coordinate = [head + i * 10];
-      body.push(coordinate);
-      valid = true;
-    }
-
-  return body;
-}
-function isTaken(ship) {
-  let result = false;
-  for (let i = 0; i < ship.length; i++) {
-    let cell = ship.body[i];
-    if (p1BoardCells[cell].classList.contains("taken")) {
-      result = true;
-      break;
-    }
-  }
-  return result;
-}
-function isOutsideBoundary(ship) {
-  let result = false;
-  for (let i = 0; i < ship.length - 1; i++) {
-    if (ship.body[i] % 10 === 9) result = true;
-  }
-  for (let i = 0; i < ship.length; i++) {
-    if (ship.body[i] > 99) result = true;
-  }
-  return result;
 }
 
 function randomize(ship) {
@@ -133,8 +101,8 @@ function randomize(ship) {
   if (randomDirection === 0) {
     randomDirection = "horizontal";
   } else randomDirection = "vertical";
-  ship.direction = randomDirection;
-  ship.body = generateShipBody(randomSpot, ship.direction, ship.length);
+
+  ship.buildBody(randomSpot, randomDirection);
 
   if (isOutsideBoundary(ship)) {
     randomize(ship);
@@ -148,6 +116,37 @@ function randomize(ship) {
   placeShip(ship);
 
   console.log(randomDirection);
+}
+function isTaken(ship) {
+  let body = ship.getBody();
+  let length = ship.getLength();
+  let result = false;
+  for (let i = 0; i < length; i++) {
+    let cell = body[i];
+    if (p1BoardCells[cell].classList.contains("taken")) {
+      result = true;
+      break;
+    }
+  }
+  return result;
+}
+function isOutsideBoundary(ship) {
+  let body = ship.getBody();
+  let length = ship.getLength();
+  let result = false;
+  for (let i = 0; i < length - 1; i++) {
+    if (body[i] % 10 === 9) {
+      result = true;
+      break;
+    }
+  }
+  for (let i = 0; i < length; i++) {
+    if (body[i] > 99) {
+      result = true;
+      break;
+    }
+  }
+  return result;
 }
 // random button
 const randomBtn = document.querySelector(".random");
@@ -165,12 +164,9 @@ p1BoardCells.forEach((cell) => {
     if (activeShip === null) return;
     console.log(e.currentTarget);
     let idx = parseInt(cell.getAttribute("data-id"));
-    activeShip.body = generateShipBody(
-      idx,
-      activeShip.direction,
-      activeShip.length
-    );
+    activeShip.buildBody(idx, direction);
     clearHover();
+    console.log(activeShip.getBody());
     if (isOutsideBoundary(activeShip)) {
       cell.style.cursor = "not-allowed";
       valid = false;
@@ -191,7 +187,8 @@ p1Board.addEventListener("mouseleave", (e) => {
 });
 
 function addHover(ship) {
-  ship.body.forEach((cell) => {
+  let body = ship.getBody();
+  body.forEach((cell) => {
     p1BoardCells[cell].classList.add("hover");
   });
 }
@@ -225,5 +222,32 @@ function startGame() {
   activeShip = null;
 }
 
-/// now we are at the computer board
-// wee need to play
+// The setups below creates the players and their boards after
+// the function calls for them we can finally play the game
+function playerSetup() {
+  const player = createPlayer("Player", "human", boardHeight, boardWidth);
+  const playerBoard = player.getGameBoard();
+  ships.forEach((ship) => playerBoard.placeShip(ship));
+}
+function computerSetup() {
+  const computer = createPlayer("Player2", "computer", boardWidth, boardHeight);
+  const computerBoard = computer.getGameBoard();
+  const ships = [
+    createShip("cruiser", 5),
+    createShip("battleship", 4),
+    createShip("destroyer", 3),
+    createShip("submarine", 3),
+    createShip("patrol", 2),
+  ];
+  // this generates the ships at random locations
+  ships.forEach((ship) => randomize(ship));
+  //this means your ships arrays have a body in them ready to placed on a board
+  ships.forEach((ship) => computerBoard.placeShip(ship));
+}
+
+// how to attack is by selecting an index and calling the
+// recieve attack function from the opposing board
+// for the ai they select a spot thats not attacked yet
+// and attack that spot
+
+// for the player you select a spot on the opponenet board

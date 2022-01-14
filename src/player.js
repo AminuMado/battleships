@@ -1,4 +1,4 @@
-import createGameBoard from "./gameboard.js";
+import { createGameBoard } from "./gameboard.js";
 
 function createPlayer(name, type, width, height) {
   let gameBoard = createGameBoard(width, height);
@@ -14,5 +14,5 @@ function createPlayer(name, type, width, height) {
   }
   return { getName, getType, getGameBoard };
 }
-
-module.exports = createPlayer;
+export { createPlayer };
+// module.exports = createPlayer;
