@@ -57,7 +57,7 @@ p1Board.addEventListener("click", (e) => {
   if (cell) {
     if (activeShip === null) return;
     if (!valid) return;
-    clearShip(activeShip);
+    clearShip(activeShip, p1BoardCells);
     placeShip(activeShip);
   }
   return;
@@ -79,9 +79,9 @@ function switchActiveShip(index) {
   clearActiveShip();
   shipsContainer[index].classList.add("active");
 }
-function clearShip(ship) {
+function clearShip(ship, board) {
   let name = ship.getName();
-  [...p1BoardCells].filter((cell) => {
+  [...board].filter((cell) => {
     let result = cell.classList.contains(name);
     if (result) {
       cell.classList.remove(name);
@@ -89,16 +89,16 @@ function clearShip(ship) {
     }
   });
 }
-function placeShip(ship) {
+function placeShip(ship, board) {
   let name = ship.getName();
   let body = ship.getBody();
   body.forEach((cell) => {
-    p1BoardCells[cell].classList.add(name);
-    p1BoardCells[cell].classList.add("taken");
+    board[cell].classList.add(name);
+    board[cell].classList.add("taken");
   });
 }
 
-function randomize(ship) {
+function randomize(ship, board) {
   let randomDirection = Math.floor(Math.random() * 2);
   let randomSpot = Math.floor(Math.random() * 99);
   if (randomDirection === 0) {
@@ -108,21 +108,21 @@ function randomize(ship) {
   ship.buildBody(randomSpot, randomDirection);
 
   if (isOutsideBoundary(ship)) {
-    randomize(ship);
+    randomize(ship, board);
     return;
   }
-  if (isTaken(ship)) {
-    randomize(ship);
+  if (isTaken(ship, board)) {
+    randomize(ship, board);
     return;
   }
 }
-function isTaken(ship) {
+function isTaken(ship, board) {
   let body = ship.getBody();
   let length = ship.getLength();
   let result = false;
   for (let i = 0; i < length; i++) {
     let cell = body[i];
-    if (p1BoardCells[cell].classList.contains("taken")) {
+    if (board[cell].classList.contains("taken")) {
       result = true;
       break;
     }
@@ -151,9 +151,9 @@ function isOutsideBoundary(ship) {
 const randomBtn = document.querySelector(".random");
 randomBtn.addEventListener("click", (e) => {
   playerShips.forEach((ship) => {
-    randomize(ship);
-    clearShip(ship);
-    placeShip(ship);
+    randomize(ship, p1BoardCells);
+    clearShip(ship, p1BoardCells);
+    placeShip(ship, p1BoardCells);
   });
 });
 
@@ -176,7 +176,7 @@ p1BoardCells.forEach((cell) => {
       return;
     }
 
-    if (isTaken(activeShip)) {
+    if (isTaken(activeShip, p1BoardCells)) {
       cell.style.cursor = "not-allowed";
       valid = false;
       return;
@@ -237,6 +237,7 @@ function playerSetup() {
   return playerBoard;
 }
 function computerSetup() {
+  // you should be an object and have a file for yourself with an init method and attack method
   const computer = createPlayer("Player2", "computer", boardWidth, boardHeight);
   const computerBoard = computer.getGameBoard();
   const computerShips = [
@@ -248,12 +249,25 @@ function computerSetup() {
   ];
   // this generates the ships at random locations
   computerShips.forEach((ship) => {
-    randomize(ship);
+    randomize(ship, p2BoardCells);
+    addTaken(ship, p2BoardCells);
   });
   //this means your ships arrays have a body in them ready to placed on a board
   computerShips.forEach((computerShip) =>
     computerBoard.placeShip(computerShip)
   );
+  clearTaken(p2BoardCells);
+  function addTaken(ship, board) {
+    const body = ship.getBody();
+    body.forEach((cell) => {
+      board[cell].classList.add("taken");
+    });
+  }
+  function clearTaken(board) {
+    board.forEach((cell) => {
+      cell.classList.remove("taken");
+    });
+  }
   return computerBoard;
 }
 
@@ -272,6 +286,7 @@ p2Board.addEventListener("click", (e) => {
   // i want to be able to call recieveAttack on the gameboard
   computerBoard.receiveAttack(idx);
   render();
+  console.log(computerBoard.getGameBoard());
 });
 function render() {
   computerBoard.getGameBoard().forEach((cell, index) => {
@@ -292,3 +307,6 @@ function computerAttack() {
     playerBoard.receiveAttack(randomSpot);
   } else computerAttack();
 }
+
+// at the end of the day i want this file to just be
+// an object with just fucntions in them generateBoard() etc etc
