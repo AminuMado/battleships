@@ -315,9 +315,10 @@ function render() {
 }
 function computerAttack() {
   let randomSpot = Math.floor(Math.random() * 99);
-  if (playerBoard.getGameBoard()[randomSpot] === null) {
-    playerBoard.receiveAttack(randomSpot);
-  } else computerAttack();
+  let board = playerBoard.getGameBoard();
+  if (board[randomSpot] === 0 || board[randomSpot] === 1) {
+    computerAttack();
+  } else playerBoard.receiveAttack(randomSpot);
 }
 
 // at the end of the day i want this file to just be
