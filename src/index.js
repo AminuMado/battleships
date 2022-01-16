@@ -285,6 +285,7 @@ p2Board.addEventListener("click", (e) => {
   let idx = parseInt(cell.getAttribute("data-id"));
   // i want to be able to call recieveAttack on the gameboard
   computerBoard.receiveAttack(idx);
+  computerAttack();
   render();
   console.log(computerBoard.getGameBoard());
 });
@@ -298,6 +299,17 @@ function render() {
       //hit
 
       p2BoardCells[index].classList.add("hit");
+    }
+  });
+  playerBoard.getGameBoard().forEach((cell, index) => {
+    if (cell == 0) {
+      //miss
+
+      p1BoardCells[index].classList.add("miss");
+    } else if (cell === 1) {
+      //hit
+
+      p1BoardCells[index].classList.add("hit");
     }
   });
 }
