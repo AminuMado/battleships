@@ -288,6 +288,10 @@ p2Board.addEventListener("click", (e) => {
   computerAttack();
   render();
   console.log(computerBoard.getGameBoard());
+  sunkShip(computerBoard);
+  sunkShip(playerBoard);
+  gameOver(computerBoard);
+  gameOver(playerBoard);
 });
 function render() {
   computerBoard.getGameBoard().forEach((cell, index) => {
@@ -323,3 +327,19 @@ function computerAttack() {
 
 // at the end of the day i want this file to just be
 // an object with just fucntions in them generateBoard() etc etc
+
+/// implement gameOver
+function gameOver(board) {
+  if (board.allShipsSunk()) alert("gameover");
+}
+
+function sunkShip(board) {
+  let ships = board.getShips();
+  let count = 5;
+  for (const ship of ships) {
+    if (ship.isSunk()) {
+      count--;
+    }
+  }
+  console.log(count);
+}
