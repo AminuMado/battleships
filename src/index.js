@@ -58,7 +58,7 @@ p1Board.addEventListener("click", (e) => {
     if (activeShip === null) return;
     if (!valid) return;
     clearShip(activeShip, p1BoardCells);
-    placeShip(activeShip);
+    placeShip(activeShip, p1BoardCells);
   }
   return;
 });
@@ -93,7 +93,9 @@ function placeShip(ship, board) {
   let name = ship.getName();
   let body = ship.getBody();
   body.forEach((cell) => {
-    board[cell].classList.add(name);
+    console.log(name);
+    console.log(body);
+    board[cell].classList.add(`${name}`);
     board[cell].classList.add("taken");
   });
 }
