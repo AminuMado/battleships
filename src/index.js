@@ -345,3 +345,5 @@ function sunkShip(board) {
   }
   console.log(count);
 }
+// start button
+const startBtn = document.querySelector(".start-btn");
