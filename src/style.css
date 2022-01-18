@@ -1,4 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Domine:wght@400;500;600&display=swap");
+@font-face {
+  font-family: SketchPencil;
+
+  src: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/font/SketchPencilDemoItalic.ttf);
+}
+@font-face {
+  font-family: Crosshatcher;
+  src: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/font/Crosshatcher.otf);
+}
+@font-face {
+  font-family: Handrush;
+  src: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/font/HandrushDemoRegular.ttf);
+}
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +23,7 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: #f6efee;
-  font-family: "Domine", serif;
+  font-family: Crosshatcher, SketchPencil, Handrush;
   background-color: #a1c6ea;
   /* e1ca96 ACA885 434A42 F4F4ED F6BD60 E63946 A8DADC 262322 7C6A0A F5BB00 B6174B */
   /* background-color: #f4f4ed;
@@ -292,6 +305,7 @@ h4 {
 }
 
 /* modal */
+
 .overlay {
   position: fixed;
   background-image: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/images/battleship.jpg);
@@ -300,15 +314,48 @@ h4 {
   right: 0;
   bottom: 0;
   top: 0;
-  transition: all 1s ease-in-out;
+  transition: all 2s ease-in-out;
   pointer-events: none;
   z-index: 1;
   background-repeat: round;
   /* background-color: #fefefe; */
   /* background-position: top; */
   background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  gap: 5%;
 }
 .overlay.active {
   opacity: 1;
   pointer-events: all;
+}
+.title {
+  margin: 10px;
+  font-size: 650%;
+  color: #8a8a8a;
+}
+.start-btn {
+  font-size: 4.2rem;
+  color: #8a8a8a;
+  text-align: center;
+  outline: none;
+  font-family: Crosshatcher;
+  cursor: pointer;
+  transition: all 0.51s ease-in-out;
+  font-weight: bolder;
+}
+.start-btn:hover {
+  color: black;
+  transform: scale(1.1);
+}
+.start-btn:active {
+  transform: scale(1.2);
+}
+button {
+  background-color: transparent;
+  border-style: none;
+  color: inherit;
 }
