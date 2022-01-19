@@ -289,9 +289,27 @@ h4 {
   transform: translate(-50%, -50%);
 }
 
-/* modal */
-
-.overlay {
+/* start Page */
+.overlay-menu {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  transition: all 1s ease-in-out;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.overlay-menu.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.start-page {
   position: fixed;
   background-image: url(/home/aminumado/Git-Repository/Projects/TheOdinProject/battleships/src/assets/images/battleship.jpg);
   opacity: 0;
@@ -311,10 +329,11 @@ h4 {
   align-items: center;
   gap: 5%;
 }
-.overlay.active {
+.start-page.active {
   opacity: 1;
   pointer-events: all;
 }
+
 .title {
   margin: 10px;
   font-size: 650%;
@@ -340,14 +359,26 @@ button {
   font-size: 30px;
 }
 button:hover {
-  color: #000000;
+  color: brown;
   transform: scale(1.2);
+  cursor: pointer;
 }
 button:active {
   transform: scale(1.3);
 }
 /* menu */
-.menu {
+.menu-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+  width: 100%;
+  height: 40%;
+  background: black;
+}
+
+.menu-btn {
   font-size: 50px;
   color: #8a8a8a;
 }
@@ -355,4 +386,36 @@ button:active {
 .button-container {
   display: flex;
   gap: 30px;
+}
+/* result page */
+.overlay-result {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  transition: all 1s ease-in-out;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.overlay-result.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.result-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+  width: 100%;
+  height: 40%;
+  background: black;
+  color: #8a8a8a;
+  font-size: 150px;
 }
