@@ -346,4 +346,34 @@ function sunkShip(board) {
   console.log(count);
 }
 // start button
-const startBtn = document.querySelector(".start-btn");
+const startPageStartBtn = document.querySelector(".start-btn");
+const startPage = document.querySelector(".start-page");
+startPageStartBtn.addEventListener("click", (e) => {
+  startPage.classList.remove("active");
+});
+// menu button
+const menuBtn = document.querySelector(".menu-btn");
+const menuOverlay = document.querySelector(".overlay-menu");
+const menuPage = document.querySelector(".menu-page");
+const resumeBtn = document.querySelector(".resume-btn");
+const restartBtn = document.querySelector(".restart-btn");
+menuBtn.addEventListener("click", (e) => {
+  menuOverlay.classList.add("active");
+  menuPage.classList.add("active");
+});
+resumeBtn.addEventListener("click", () => {
+  menuOverlay.classList.remove("active");
+  menuPage.classList.remove("active");
+});
+restartBtn.addEventListener("click", () => {
+  startPage.classList.add("active");
+  menuOverlay.classList.remove("active");
+  menuPage.classList.remove("active");
+});
+// result Page
+const resultOverlay = document.querySelector(".overlay-result");
+const resultPage = document.querySelector(".result-page");
+const resultMessage = document.querySelector(".result-message");
+const playAgainBtn = document.querySelector(".play-again");
+
+console.log(resultOverlay, resultPage, resultMessage, playAgainBtn);
