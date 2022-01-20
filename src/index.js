@@ -332,7 +332,11 @@ function computerAttack() {
 
 /// implement gameOver
 function gameOver(board) {
-  if (board.allShipsSunk()) alert("gameover");
+  if (board.allShipsSunk()) {
+    resultMessage.textContent = "You Win";
+    resultOverlay.classList.add("active");
+    resultPage.classList.add("active");
+  }
 }
 
 function sunkShip(board) {
@@ -375,5 +379,8 @@ const resultOverlay = document.querySelector(".overlay-result");
 const resultPage = document.querySelector(".result-page");
 const resultMessage = document.querySelector(".result-message");
 const playAgainBtn = document.querySelector(".play-again");
-
-console.log(resultOverlay, resultPage, resultMessage, playAgainBtn);
+playAgainBtn.addEventListener("click", () => {
+  resultOverlay.classList.remove("active");
+  resultPage.classList.remove("active");
+  startPage.classList.add("active");
+});
