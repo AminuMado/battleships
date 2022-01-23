@@ -10,8 +10,6 @@ const events = () => {
     ship.addEventListener("click", (e) => {
       dom.activeShip = dom.getFleet()[index];
       dom.ship.switchActiveShip(index);
-      console.log(dom.activeShip.getName());
-      console.log(dom.activeShip.getBody());
     });
   });
 
@@ -57,7 +55,6 @@ const events = () => {
     cell.addEventListener("click", (e) => {
       let coordinate = parseInt(e.target.getAttribute("data-id"));
       //insert player attack function here
-      console.log(coordinate);
     });
   });
 
@@ -123,7 +120,6 @@ const events = () => {
     let cell = e.target;
     if (cell.classList.contains("p2-grid-cell")) {
       let idx = parseInt(cell.getAttribute("data-id"));
-      console.log(p1, p2);
       p1.player.attack(idx, p2.computerBoard);
       p2.computer.autoAttack(p1.playerBoard);
       dom.render("p1", p1.playerBoard.getGameBoard());
