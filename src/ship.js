@@ -2,7 +2,7 @@ function createShip(name, length) {
   let health = new Array(length).fill(false);
   let body = [];
 
-  function buildBody(head, direction) {
+  const buildBody = (head, direction) => {
     let builtBody = [];
     switch (direction) {
       case "horizontal":
@@ -19,9 +19,9 @@ function createShip(name, length) {
         return;
     }
     body = builtBody;
-  }
+  };
 
-  function isHit(coordinate) {
+  const isHit = (coordinate) => {
     let result = false;
     for (let i = 0; i < body.length; i++) {
       if (coordinate == body[i]) {
@@ -31,22 +31,11 @@ function createShip(name, length) {
       }
     }
     return result;
-  }
-
-  function getBody() {
-    return body;
-  }
-
-  function getName() {
-    return name;
-  }
-  function getLength() {
-    return length;
-  }
-  function isSunk() {
-    let result = health.every((e) => e === true);
-    return result;
-  }
+  };
+  const isSunk = () => health.every((e) => e === true);
+  const getBody = () => body;
+  const getName = () => name;
+  const getLength = () => length;
 
   return { getName, getLength, getBody, buildBody, isHit, isSunk };
 }

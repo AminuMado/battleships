@@ -12,38 +12,23 @@ import createShip from "./ship.js";
 function createGameBoard(width, height) {
   let gameBoard = [];
   let ships = [];
-  buildBoard();
 
-  function getGameBoard() {
-    return gameBoard;
-  }
+  const getGameBoard = () => gameBoard;
+  const getShips = () => ships;
+  const buildBoard = () => (gameBoard = new Array(width * height).fill(null));
+  const hit = (coordinate) => (gameBoard[coordinate] = 1);
+  const miss = (coordinate) => (gameBoard[coordinate] = 0);
 
-  function getShips() {
-    return ships;
-  }
-
-  function buildBoard() {
-    gameBoard = new Array(width * height).fill(null);
-  }
-
-  function placeShip(ship) {
+  const placeShip = (ship) => {
     const shipName = ship.getName();
     const shipCoordinate = ship.getBody();
     shipCoordinate.forEach((element) => {
       gameBoard[element] = shipName;
     });
     ships.push(ship);
-  }
+  };
 
-  function hit(coordinate) {
-    gameBoard[coordinate] = 1;
-  }
-
-  function miss(coordinate) {
-    gameBoard[coordinate] = 0;
-  }
-
-  function receiveAttack(coordinate) {
+  const receiveAttack = (coordinate) => {
     let location = gameBoard[coordinate];
     if (location !== null) {
       if (location !== 1 || location !== 0) {
@@ -58,13 +43,26 @@ function createGameBoard(width, height) {
       }
       return;
     } else miss(coordinate);
-  }
+  };
 
-  function allShipsSunk() {
+  const allShipsSunk = () => {
     let result = ships.every((ship) => ship.isSunk() === true);
     return result;
-  }
-  return { getGameBoard, getShips, receiveAttack, placeShip, allShipsSunk };
+  };
+  const reset = () => {
+    gameBoard = [];
+    buildBoard();
+    ships = [];
+  };
+  buildBoard();
+  return {
+    getGameBoard,
+    getShips,
+    receiveAttack,
+    placeShip,
+    allShipsSunk,
+    reset,
+  };
 }
 export { createGameBoard };
 // module.exports = createGameBoard;
