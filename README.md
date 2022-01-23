@@ -38,6 +38,7 @@ From The Odin Project's [curriculum](https://www.theodinproject.com/paths/full-s
 
 - ES6 Modules
 - TDD using Jest
+  \*\* This project is not completed still in beta
 
 ## Author
 
