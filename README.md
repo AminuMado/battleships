@@ -1,10 +1,21 @@
 # battleships
 
-Project to create **BattleShips** using Vanilla JS, CSS and HTML
+🔗 **Live preview:** <p><a href="https://aminumado.github.io/battleships/" target="_blank" rel="noopener noreferrer">View the project here!</a> 👀</p>
 
-From The Odin Project's [curriculum](https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/battleship).
+<h3>Summary</h3>
 
-🔗 **Live preview:** [here](https://aminumado.github.io/battleships/)
+<p>This is a Battleship Game where players take turn dropping bombs on each other until one of the players' ships are all sunk. <a href="https://www.theodinproject.com/paths/full-stack-javascript/courses/javascript/lessons/battleship" target="_blank" rel="noopener noreferrer">The Odin Project's</a> javascript curriculum. The goal of this project was to learn how to use  test driven development with Jest and factory functions.</p>
+<h3>Demo GIF</h3>
+
+<h4>Desktop</h4>
+
+![](./src/assets/DemoGif/demo.gif)
+
+### Functionality & Features
+
+- You can place your ships manually.
+- You can rotate your ships before placing it on your board.
+- `Randomize` button places all your ships randomly on your board for you.
 
 ## Built with
 
@@ -12,7 +23,8 @@ From The Odin Project's [curriculum](https://www.theodinproject.com/paths/full-s
 
 - HTML
 - CSS
-- JS
+- JavaScript 
+
 
 ### Tools
 
@@ -37,8 +49,13 @@ From The Odin Project's [curriculum](https://www.theodinproject.com/paths/full-s
 ### What I learned
 
 - ES6 Modules
-- TDD using Jest
-  \*\* This project is not completed still in beta
+- Test Driven Development
+- Unit Testing with Jest
+
+### Future Fixes
+
+- possibly add a drag and drop feature
+- make AI smarter
 
 ## Author
 
